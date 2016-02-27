@@ -91,8 +91,15 @@ for group_id in groups.keys():
         radius[uid] = 1
   interactions[group_id] = edges
   contributions[group_id] = radius
-#print interactions
-#print contributions
+
+# OVERALL
+all_id = 0
+all_name = 'All'
+all_edges = Edge.combine(interactions.values())
+all_conts = User.combine(contributions.values())
+interactions[all_id] = all_edges
+contributions[all_id] = all_conts
+group_hash[all_id] = all_name
 
 outs = Exporter.export(contributions, user_hash, interactions)
 #print outs
