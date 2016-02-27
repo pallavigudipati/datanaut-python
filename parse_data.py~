@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 from edge import Edge
 from edge import Message
 from edge import User
