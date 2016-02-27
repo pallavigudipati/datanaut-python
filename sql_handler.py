@@ -10,14 +10,16 @@ class SQLHandler:
   def get_feeds(self, yammer_id):
     cursor = self.db.cursor()
     sql_cmd = "SELECT * FROM messages_my_feed WHERE yammer_id  = '%s'" % (yammer_id)
-    feeds = ''
+    feeds = None
     try:
       cursor.execute(sql_cmd)
       results = cursor.fetchall()
       for row in results:
         feeds = row[2]
     except:
-      print "ERROR: Unable to fetch data"
+      pass
+      #print "ERROR: Unable to fetch data"
+    #  feeds = None
     return feeds
 
   def insert_plots(self, yammer_id, plots, group_hash):
@@ -42,7 +44,9 @@ class SQLHandler:
         except:
           self.db.rollback()
       except:
-        print "ERROR: Unable to fetch data"
+        #print "ERROR: Unable to fetch data"
+        return False
+      return True
 
   def cleanup(self):
     self.db.close()

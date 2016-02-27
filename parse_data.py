@@ -34,8 +34,6 @@ def get_inters_and_cons(messages, edges):
 
 sql_handler = SQLHandler()
 
-input_file = sys.argv[1]
-
 groups = {}
 group_hash = {}
 user_hash = {}
@@ -44,7 +42,13 @@ interactions = {}
 contributions = {}
 
 # Group -> Threads 
-doc = json.loads(sql_handler.get_feeds(sys.argv[1]))
+json_string = sql_handler.get_feeds(sys.argv[1])
+if json_string == None:
+  print False
+  exit()
+
+doc = json.loads(json_string)
+
 for reference in doc['references']:
   # User
   if reference['type'] == 'user':
@@ -87,13 +91,16 @@ for group_id in groups.keys():
         radius[uid] = 1
   interactions[group_id] = edges
   contributions[group_id] = radius
-print interactions
-print contributions
+#print interactions
+#print contributions
 
 outs = Exporter.export(contributions, user_hash, interactions)
-print outs
+#print outs
 
-sql_handler.insert_plots(sys.argv[1], outs, group_hash)
+success = sql_handler.insert_plots(sys.argv[1], outs, group_hash)
+if success == False:
+  print False
+  exit()
 sql_handler.cleanup()
-
+print True
 #doc = xmltodict.parse(fd.read())
