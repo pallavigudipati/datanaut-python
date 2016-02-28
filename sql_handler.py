@@ -39,8 +39,8 @@ class SQLHandler:
               (yammer_id, group_id, group_hash[group_num], plots[group_num])
         else:
     #      print 'update'
-          sql_cmd = "UPDATE group_plots_data SET group_plot_json = '%s' WHERE \
-              yammer_id = '%s' AND group_id = '%s'" % (plots[group_num], yammer_id, group_id)
+          sql_cmd = "UPDATE group_plots_data SET group_plot_json = '%s', group_name = '%s' WHERE \
+              yammer_id = '%s' AND group_id = '%s'" % (plots[group_num], group_hash[group_num], yammer_id, group_id)
         try:
           cursor.execute(sql_cmd)
           self.db.commit()
